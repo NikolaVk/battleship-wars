@@ -28,6 +28,11 @@ def draw_grid(player_states, oponent_states):
     playfield grid. This will repeat after
     each turn with a new state.
     """
+    global cell_state_unknown
+    global cell_state_boat
+    global cell_state_missed
+    global cell_state_hit
+
     print("              Player                                                  Oponent")
     print("   A   B   C   D   E   F   G   H                           A   B   C   D   E   F   G   H")
     for row_num in range(8):
@@ -49,6 +54,15 @@ def init_grid(grid):
     and opponent and makes sure its inside
     the grid and that the boats do not overlap
     """
+    global cell_state_unknown
+    global cell_state_boat
+    global cell_state_missed
+    global cell_state_hit
+
+    for col_index in range(8):
+        for row_index in range(8):
+            grid[row_index][col_index] = cell_state_unknown
+
     # position the boats
     for boat_index in range(4):
         # Place the boat
@@ -94,19 +108,23 @@ def check_grid_status(grid):
     num_boats = 0
     num_hits = 0
     num_missings = 0
+    global cell_state_unknown
+    global cell_state_boat
+    global cell_state_missed
+    global cell_state_hit
 
     for col_index in range(8):
         for row_index in range(8):
-            if grid[row_index][col_index] == cell_state_boat:
+            if grid[row_index][col_index] is cell_state_boat:
                 num_boats = num_boats + 1
-            elif grid[row_index][col_index] == cell_state_hit:
+            elif grid[row_index][col_index] is cell_state_hit:
                 num_hits = num_hits + 1
-            elif grid[row_index][col_index] == cell_state_missed:
+            elif grid[row_index][col_index] is cell_state_missed:
                 num_missings = num_missings + 1
 
-    if num_boats == 0:
+    if num_boats is 0:
         # all boatspositions are gone
-        return gridstatus_boats_left
+        return gridstatus_noboats_left
     return gridstatus_boats_left
 
 
@@ -118,8 +136,12 @@ def get_player_posinput(grid):
     If the input is invalid the player
     must try again
     """
+    global cell_state_unknown
+    global cell_state_boat
+    global cell_state_missed
+    global cell_state_hit
     while True:
-        pos_as_string = input("Provide the position you want to try (A-H/1-8): ")
+        pos_as_string = input("Provide the position you want to try (A-H/1-8): ").upper()
         if (pos_as_string):
             if (len(pos_as_string) == 2) and (pos_as_string[0] >= 'A') and (pos_as_string[0] <= 'H') and (pos_as_string[1] >= '1') and (pos_as_string[1] <= '8'):
                 # decode the position
@@ -143,26 +165,38 @@ def opponent_turn(grid):
     """
     global last_hit_col_pos
     global last_hit_row_pos
+    global cell_state_unknown
+    global cell_state_boat
+    global cell_state_missed
+    global cell_state_hit
+
+    #  print("Last hit pos " + str(last_hit_col_pos) + "," + str(last_hit_row_pos))
 
     # Be a little bit smarter then plain stupid
     col_index = 0
     row_index = 0
-    if last_hit_col_pos >= 0 and last_hit_col_pos < 7 and grid[last_hit_row_pos][last_hit_col_pos + 1] is cell_state_unknown:
-        col_index = last_hit_col_pos + 1
-        row_index = last_hit_row_pos
-    elif last_hit_col_pos >= 1 and last_hit_col_pos < 8 and grid[last_hit_row_pos][last_hit_col_pos - 1] is cell_state_unknown:
-        col_index = last_hit_col_pos - 1
-        row_index = last_hit_row_pos
-    elif last_hit_row_pos >= 0 and last_hit_row_pos < 7 and grid[last_hit_row_pos + 1][last_hit_col_pos] is cell_state_unknown:
-        col_index = last_hit_col_pos
-        row_index = last_hit_row_pos + 1
-    elif last_hit_row_pos >= 1 and last_hit_row_pos < 8 and grid[last_hit_row_pos - 1][last_hit_col_pos] is cell_state_unknown:
-        col_index = last_hit_col_pos
-        row_index = last_hit_row_pos - 1
+    if last_hit_col_pos >= 0 and last_hit_col_pos < 7 and \
+            grid[last_hit_row_pos][last_hit_col_pos + 1] is not cell_state_hit and grid[last_hit_row_pos][last_hit_col_pos + 1] is not cell_state_missed:
+                col_index = last_hit_col_pos + 1
+                row_index = last_hit_row_pos
+    elif last_hit_col_pos >= 1 and last_hit_col_pos < 8 and \
+            grid[last_hit_row_pos][last_hit_col_pos - 1] is not cell_state_hit and grid[last_hit_row_pos][last_hit_col_pos - 1] is not cell_state_missed:
+                col_index = last_hit_col_pos - 1
+                row_index = last_hit_row_pos
+    elif last_hit_row_pos >= 0 and last_hit_row_pos < 7 and \
+            grid[last_hit_row_pos + 1][last_hit_col_pos] is not cell_state_hit and grid[last_hit_row_pos + 1][last_hit_col_pos] is not cell_state_missed:
+                col_index = last_hit_col_pos
+                row_index = last_hit_row_pos + 1
+    elif last_hit_row_pos >= 1 and last_hit_row_pos < 8 and \
+            grid[last_hit_row_pos - 1][last_hit_col_pos] is not cell_state_hit and grid[last_hit_row_pos - 1][last_hit_col_pos] is not cell_state_missed:
+                col_index = last_hit_col_pos
+                row_index = last_hit_row_pos - 1
     else:
         while True:
             col_index = random.randint(0, 7)
             row_index = random.randint(0, 7)
+
+            # print("Test " + str(col_index) + "," + str(row_index))
 
             # check if we already tried this position
             if grid[row_index][col_index] is not cell_state_hit and grid[row_index][col_index] is not cell_state_missed:
@@ -188,6 +222,8 @@ def start_game():
     grid. It also starts the game after player
     has provided input
     """
+    global gridstatus_noboats_left
+
     # generate random player positions in grid
     init_grid(player_grid)
     # generate random oponent positions in grid
@@ -217,7 +253,7 @@ def start_game():
         opponent_turn(player_grid)
 
         # perform the check
-        if check_grid_status(player_grid) == gridstatus_noboats_left:
+        if check_grid_status(player_grid) is gridstatus_noboats_left:
             # oeps, you loose
             draw_grid(player_grid, oponent_grid)
             print("You lost")
