@@ -2,10 +2,10 @@ import random
 import sys
 import msvcrt
 
-cellState_unknown = 0
-cellState_boat = 1
-cellState_missed = 2
-cellState_hit = 3
+cell_state_unknown = 0
+cell_state_boat = 1
+cell_state_missed = 2
+cell_state_hit = 3
 
 gridstatus_boats_left = 0
 gridstatus_noboats_left = 1
@@ -16,8 +16,10 @@ player_boats = []
 oponent_boats = []
 boat_sizes = [5, 4, 3, 2]
 
+last_hit_col_pos = -1
+last_hit_row_pos = -1
 
-grid_chars = ["[ ]", " X ", " X ", " o "]
+grid_chars = ["[ ]", " * ", " o ", " X "]
 
 
 def draw_grid(player_states, oponent_states):
@@ -34,8 +36,8 @@ def draw_grid(player_states, oponent_states):
             row_string = row_string + grid_chars[player_states[row_num][col_index]] + " "
         row_string = row_string + "                      " + str(row_num + 1) + " "
         for col_index in range(8):
-            if oponent_states[row_num][col_index] == cellState_boat:
-                row_string = row_string + grid_chars[cellState_unknown] + ""
+            if oponent_states[row_num][col_index] == cell_state_boat:
+                row_string = row_string + grid_chars[cell_state_unknown] + " "
             else:
                 row_string = row_string + grid_chars[oponent_states[row_num][col_index]] + " "
         print(row_string)
@@ -60,12 +62,12 @@ def init_grid(grid):
                 # check if we are not overriding existing boats
                 hits = False
                 for colcelloffset in range(0, boat_sizes[boat_index]):
-                    if grid[row_index][colcelloffset + col_index] != cellState_unknown:
+                    if grid[row_index][colcelloffset + col_index] != cell_state_unknown:
                         # spot already occupied
                         hits = True
                 if hits is False:
                     for colcelloffset in range(0, boat_sizes[boat_index]):
-                        grid[row_index][colcelloffset + col_index] = cellState_boat
+                        grid[row_index][colcelloffset + col_index] = cell_state_boat
                     break
             else:
                 # vertical
@@ -73,12 +75,12 @@ def init_grid(grid):
                 col_index = random.randint(0, 7)
                 hits = False
                 for rowcelloffset in range(0, boat_sizes[boat_index]):
-                    if grid[row_index + rowcelloffset][col_index] != cellState_unknown:
+                    if grid[row_index + rowcelloffset][col_index] != cell_state_unknown:
                         # spot already occupied
                         hits = True
                 if hits is False:
                     for rowcelloffset in range(0, boat_sizes[boat_index]):
-                        grid[row_index + rowcelloffset][col_index] = cellState_boat
+                        grid[row_index + rowcelloffset][col_index] = cell_state_boat
                     break
 
 
@@ -95,11 +97,11 @@ def check_grid_status(grid):
 
     for col_index in range(8):
         for row_index in range(8):
-            if grid[row_index][col_index] == cellState_boat:
+            if grid[row_index][col_index] == cell_state_boat:
                 num_boats = num_boats + 1
-            elif grid[row_index][col_index] == cellState_hit:
+            elif grid[row_index][col_index] == cell_state_hit:
                 num_hits = num_hits + 1
-            elif grid[row_index][col_index] == cellState_missed:
+            elif grid[row_index][col_index] == cell_state_missed:
                 num_missings = num_missings + 1
 
     if num_boats == 0:
@@ -131,6 +133,54 @@ def get_player_posinput(grid):
                 sys.exit()
 
 
+def opponent_turn(grid):
+    """
+    The opponent is able to fire at
+    the player. This includes a little
+    smarter opponent. The opponent will
+    make sure that if he got a hit that
+    he will try to find the entire boat
+    """
+    global last_hit_col_pos
+    global last_hit_row_pos
+
+    # Be a little bit smarter then plain stupid
+    col_index = 0
+    row_index = 0
+    if last_hit_col_pos >= 0 and last_hit_col_pos < 7 and grid[last_hit_row_pos][last_hit_col_pos + 1] is cell_state_unknown:
+        col_index = last_hit_col_pos + 1
+        row_index = last_hit_row_pos
+    elif last_hit_col_pos >= 1 and last_hit_col_pos < 8 and grid[last_hit_row_pos][last_hit_col_pos - 1] is cell_state_unknown:
+        col_index = last_hit_col_pos - 1
+        row_index = last_hit_row_pos
+    elif last_hit_row_pos >= 0 and last_hit_row_pos < 7 and grid[last_hit_row_pos + 1][last_hit_col_pos] is cell_state_unknown:
+        col_index = last_hit_col_pos
+        row_index = last_hit_row_pos + 1
+    elif last_hit_row_pos >= 1 and last_hit_row_pos < 8 and grid[last_hit_row_pos - 1][last_hit_col_pos] is cell_state_unknown:
+        col_index = last_hit_col_pos
+        row_index = last_hit_row_pos - 1
+    else:
+        while True:
+            col_index = random.randint(0, 7)
+            row_index = random.randint(0, 7)
+
+            # check if we already tried this position
+            if grid[row_index][col_index] is not cell_state_hit and grid[row_index][col_index] is not cell_state_missed:
+                break
+    # update the status
+    if grid[row_index][col_index] is cell_state_boat:
+        # yes,  we hit something
+        grid[row_index][col_index] = cell_state_hit
+        print("Oponent played " + chr(col_index + ord('A')) + str(row_index + 1) + ' HIT')
+        last_hit_col_pos = col_index
+        last_hit_row_pos = row_index
+    else:
+        grid[row_index][col_index] = cell_state_missed
+        print("Oponent played " + chr(col_index + ord('A')) + str(row_index + 1) + ' MISSED')
+        last_hit_col_pos = -1
+        last_hit_row_pos = -1
+
+
 def start_game():
     """
     Gives option to start, restart the game
@@ -149,22 +199,28 @@ def start_game():
         draw_grid(player_grid, oponent_grid)
 
         # ask player what he wants
-        grid_pos_totry = get_player_posinput(player_grid)
-        if (oponent_grid[grid_pos_totry[1]][grid_pos_totry[0]] == cellState_boat):
-            oponent_grid[grid_pos_totry[1]][grid_pos_totry[0]] = cellState_hit
-        elif (oponent_grid[grid_pos_totry[1]][grid_pos_totry[0]] == cellState_unknown):
-            oponent_grid[grid_pos_totry[1]][grid_pos_totry[0]] = cellState_missed
+        grid_pos_totry = get_player_posinput(oponent_grid)
+        if (oponent_grid[grid_pos_totry[1]][grid_pos_totry[0]] == cell_state_boat):
+            oponent_grid[grid_pos_totry[1]][grid_pos_totry[0]] = cell_state_hit
+            print("You played " + chr(grid_pos_totry[0] + ord('A')) + str(grid_pos_totry[1] + 1) + ' HIT')
+        elif (oponent_grid[grid_pos_totry[1]][grid_pos_totry[0]] == cell_state_unknown):
+            oponent_grid[grid_pos_totry[1]][grid_pos_totry[0]] = cell_state_missed
+            print("You played " + chr(grid_pos_totry[0] + ord('A')) + str(grid_pos_totry[1] + 1) + ' MISSED')
 
-        print(grid_pos_totry)
+        # perform the check
+        if check_grid_status(oponent_grid) == gridstatus_noboats_left:
+            # yeah, oponent loose
+            draw_grid(player_grid, oponent_grid)
+            print("You win")
+            return
+
+        opponent_turn(player_grid)
 
         # perform the check
         if check_grid_status(player_grid) == gridstatus_noboats_left:
             # oeps, you loose
+            draw_grid(player_grid, oponent_grid)
             print("You lost")
-            return
-        elif check_grid_status(oponent_grid) == gridstatus_noboats_left:
-            # yeah, oponent loose
-            print("You win")
             return
 
 
@@ -174,6 +230,10 @@ print("How it works?")
 print("-----------------------------------------------------")
 print("The ships will be randomly generated for both parties")
 print("The first to sinks all ships wins the game")
+print("Empty spot = []")
+print("Player boats = *")
+print("Hit = X")
+print("Missed = o")
 print("Enjoy!")
 print("-----------------------------------------------------\n")
 
