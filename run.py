@@ -117,15 +117,76 @@ def get_player_posinput(grid):
     must try again
     """
     while True:
-        pos_as_tring = input("Provide the position you want to try (A-H/1-8): ")
-        if (pos_as_tring):
-            if (len(pos_as_tring) == 2) and (pos_as_tring[0] >= 'A') and (pos_as_tring[0] <= 'H') and (pos_as_tring[1] >= '1') and (pos_as_tring[1] <= '8'):
+        pos_as_string = input("Provide the position you want to try (A-H/1-8): ")
+        if (pos_as_string):
+            if (len(pos_as_string) == 2) and (pos_as_string[0] >= 'A') and (pos_as_string[0] <= 'H') and (pos_as_string[1] >= '1') and (pos_as_string[1] <= '8'):
                 # decode the position
-                col_index = ord(pos_as_tring[0]) - ord('A')
-                row_index = ord(pos_as_tring[1]) - ord('1')
+                col_index = ord(pos_as_string[0]) - ord('A')
+                row_index = ord(pos_as_string[1]) - ord('1')
                 return (col_index, row_index)
             else:
                 print("Invalid input. Type the columncharacter and the rownumber. (example A6 or F3)")
         else:
             if(msvcrt.getch() == chr(27).encode()):
                 sys.exit()
+
+
+def start_game():
+    """
+    Gives option to start, restart the game
+    and choose shooting position on opponent
+    grid. It also starts the game after player
+    has provided input
+    """
+    # generate random player positions in grid
+    init_grid(player_grid)
+    # generate random oponent positions in grid
+    init_grid(oponent_grid)
+
+    # inner game loop
+    while True:
+        # draw current state
+        draw_grid(player_grid, oponent_grid)
+
+        # ask player what he wants
+        grid_pos_totry = get_player_posinput(player_grid)
+        if (oponent_grid[grid_pos_totry[1]][grid_pos_totry[0]] == cellState_boat):
+            oponent_grid[grid_pos_totry[1]][grid_pos_totry[0]] = cellState_hit
+        elif (oponent_grid[grid_pos_totry[1]][grid_pos_totry[0]] == cellState_unknown):
+            oponent_grid[grid_pos_totry[1]][grid_pos_totry[0]] = cellState_missed
+
+        print(grid_pos_totry)
+
+        # perform the check
+        if check_grid_status(player_grid) == gridstatus_noboats_left:
+            # oeps, you loose
+            print("You lost")
+            return
+        elif check_grid_status(oponent_grid) == gridstatus_noboats_left:
+            # yeah, oponent loose
+            print("You win")
+            return
+
+
+# Start game
+print("Welcome to Battleship Wars!\n")
+print("How it works?")
+print("-----------------------------------------------------")
+print("The ships will be randomly generated for both parties")
+print("The first to sinks all ships wins the game")
+print("Enjoy!")
+print("-----------------------------------------------------\n")
+
+
+# start game loop
+while True:
+    answer = input("Enter any key to start:")
+    start_game()
+
+    while True:
+        answer = input("Do you want to play again (y/n): ")
+        if answer == 'n' or answer == 'y':
+            break
+    if answer == 'n':
+        break
+print("Goodbye")
