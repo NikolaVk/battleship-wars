@@ -2,18 +2,18 @@
 
 Battleship wars is a game that is based on the classic strategy pen and paper game where the 2 players fight for victory 
 by destroying each other's ships. This version of the game is a python based game played via the terminal inside a code 
-editor, or in this case this game is depolyed on Heroku which creates a terminal to play on.
+editor, or in this case this game is deployed on Heroku which creates a terminal to play on.
 
-Players will be playing against a computer that will try to find all of the players ships before they do, 
+Players will be playing against a computer that will try to find all the players ships before they do, 
 the first to lose all of his ships loses the game. There are 4 ships in total with 4 different sizes going from 
-a ship that occupies 2 rows/collums to a ship that occupies 5.
+a ship that occupies 2 rows/columns to a ship that occupies 5.
 
 ## How to play
 
 Inside the terminal the first thing the player will see is how to play the game. Here it explains 
 what all different symbols mean. The players ships are indicated with a *, the empty spots are indicated with [ ], 
 the misses with o and the hits with an X. In turns the player and computer get a shot at each other, the player
-chooses hir/hers shots by typing in the coordinates (example: B5/h7) The first who sinks all of the oponents ships
+chooses his/hers shots by typing in the coordinates (example: B5/h7) The first who sinks all the opponents ships
 wins the game and can after enter 'y' to go again or 'n' to stop playing.
 
 ## Features
@@ -22,17 +22,17 @@ wins the game and can after enter 'y' to go again or 'n' to stop playing.
 
 - Battlefield
 
-    - Both the players boards are generated ramdomly making sure the ships stay inside the grid and don's overlap each other
+    - Both the players boards are generated randomly making sure the ships stay inside the grid and don's overlap each other
     - The player is unable to see the opponents ships
 
-- The oponent
-    - The player is going againts a computer
+- The opponent
+    - The player is going against a computer
     - The computer does not strike more than once in the same spot
     - The computer if it gets one hit it will try to find the second one otherwise it will start looking at different places again
 
 - Feedback and error messages
     - The player gets a feedback after every round if he/her got shot or if the computer missed
-    - The player also gets a feedback if he/she get a got or miss on the oponents grid
+    - The player also gets a feedback if he/she gets a got or miss on the opponents grid
     - If invalid coordinates are given larger than the grid itself it displays an error message
 
 
@@ -41,8 +41,8 @@ wins the game and can after enter 'y' to go again or 'n' to stop playing.
 - Ship placement
     - The player can decide where he/she wants to put the ships on the grid
 
-- Oponent
-    - A smarter oponent that if it finds a ship it will continue to fire on it until it's gone completly 
+- Opponent
+    - A smarter opponent that if it finds a ship it will continue to fire on it until it's gone completely 
 
 ## Data model
 
@@ -67,7 +67,7 @@ I ran the code through the PEP8 validator. No errors returned.
 
 ### Known Bugs
 
-- I was unable to find any bugs in the endresult
+- I was unable to find any bugs in the end result
 
 ## Deployment
 
