@@ -39,16 +39,16 @@ def draw_grid(player_states, oponent_states):
     global cell_state_hit
 
     print("              Player                     ",
-          "                           Oponent")
+          "               Oponent")
     print("   A   B   C   D   E   F   G   H         ",
-          "                 A   B   C   D   E   F   G   H")
+          "     A   B   C   D   E   F   G   H")
     for row_num in range(8):
         row_string = str(row_num + 1) + " "
         for col_index in range(8):
             row_string = row_string + \
                  grid_chars[player_states[row_num][col_index]] + " "
         row_string = row_string + \
-            "                      " + str(row_num + 1) + " "
+            "          " + str(row_num + 1) + " "
         for col_index in range(8):
             if oponent_states[row_num][col_index] == cell_state_boat:
                 row_string = row_string + grid_chars[cell_state_unknown] + " "
