@@ -137,7 +137,7 @@ def check_grid_status(grid):
             elif grid[row_index][col_index] is cell_state_missed:
                 num_missings = num_missings + 1
 
-    if num_boats is 0:
+    if num_boats == 0:
         # all boatspositions are gone
         return gridstatus_noboats_left
     return gridstatus_boats_left
@@ -157,7 +157,7 @@ def get_player_posinput(grid):
     global cell_state_hit
     while True:
         pos_as_string = \
-            input("Provide the position you want to try (A-H/1-8): ") \
+            input("Provide the position you want to try (A-H/1-8):\n") \
             .upper()
         if (pos_as_string):
             if (len(pos_as_string) == 2) and\
@@ -307,11 +307,11 @@ print("-----------------------------------------------------\n")
 
 # start game loop
 while True:
-    answer = input("Enter any key to start:")
+    answer = input("Enter any key to start:\n")
     start_game()
 
     while True:
-        answer = input("Do you want to play again (y/n): ")
+        answer = input("Do you want to play again (y/n):\n")
         if answer == 'n' or answer == 'y':
             break
     if answer == 'n':
