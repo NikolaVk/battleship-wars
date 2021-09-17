@@ -1,6 +1,5 @@
 import random
 import sys
-import msvcrt
 
 cell_state_unknown = 0
 cell_state_boat = 1
@@ -157,22 +156,19 @@ def get_player_posinput(grid):
     global cell_state_hit
     while True:
         pos_as_string = \
-            input("Provide the position you want to try (A-H/1-8):\n") \
-            .upper()
-        if (pos_as_string):
-            if (len(pos_as_string) == 2) and\
-                    (pos_as_string[0] >= 'A') and(pos_as_string[0] <= 'H') and\
-                    (pos_as_string[1] >= '1') and (pos_as_string[1] <= '8'):
+            input("Provide the position you want to try (A-H/1-8):\n").upper()
+        if (len(pos_as_string) == 2) and \
+                (pos_as_string[0] >= 'A') and(pos_as_string[0] <= 'H') and \
+                (pos_as_string[1] >= '1') and (pos_as_string[1] <= '8'):
                 # decode the position
-                col_index = ord(pos_as_string[0]) - ord('A')
-                row_index = ord(pos_as_string[1]) - ord('1')
-                return (col_index, row_index)
-            else:
-                print("Invalid input. Type the columncharacter ",
-                      "and the rownumber. (example A6 or F3)")
+            col_index = ord(pos_as_string[0]) - ord('A')
+            row_index = ord(pos_as_string[1]) - ord('1')
+            return (col_index, row_index)
+        elif pos_as_string == 'Q':
+            sys.exit()
         else:
-            if(msvcrt.getch() == chr(27).encode()):
-                sys.exit()
+            print("Invalid input. Type the columncharacter "
+                  "and the rownumber. (example A6 or F3)")
 
 
 def opponent_turn(grid):
@@ -194,30 +190,30 @@ def opponent_turn(grid):
     col_index = 0
     row_index = 0
     if last_hit_col_pos >= 0 and last_hit_col_pos < 7 and \
-            grid[last_hit_row_pos][last_hit_col_pos + 1] is not\
+            grid[last_hit_row_pos][last_hit_col_pos + 1] is not \
             cell_state_hit and\
             grid[last_hit_row_pos][last_hit_col_pos + 1]\
             is not cell_state_missed:
                 col_index = last_hit_col_pos + 1
                 row_index = last_hit_row_pos
     elif last_hit_col_pos >= 1 and last_hit_col_pos < 8 and \
-            grid[last_hit_row_pos][last_hit_col_pos - 1] is not\
+            grid[last_hit_row_pos][last_hit_col_pos - 1] is not \
             cell_state_hit and\
             grid[last_hit_row_pos][last_hit_col_pos - 1]\
             is not cell_state_missed:
                 col_index = last_hit_col_pos - 1
                 row_index = last_hit_row_pos
     elif last_hit_row_pos >= 0 and last_hit_row_pos < 7 and \
-            grid[last_hit_row_pos + 1][last_hit_col_pos] is not\
+            grid[last_hit_row_pos + 1][last_hit_col_pos] is not \
             cell_state_hit and\
             grid[last_hit_row_pos + 1][last_hit_col_pos]\
             is not cell_state_missed:
                 col_index = last_hit_col_pos
                 row_index = last_hit_row_pos + 1
     elif last_hit_row_pos >= 1 and last_hit_row_pos < 8 and \
-            grid[last_hit_row_pos - 1][last_hit_col_pos] is not\
+            grid[last_hit_row_pos - 1][last_hit_col_pos] is not \
             cell_state_hit and\
-            grid[last_hit_row_pos - 1][last_hit_col_pos]\
+            grid[last_hit_row_pos - 1][last_hit_col_pos] \
             is not cell_state_missed:
                 col_index = last_hit_col_pos
                 row_index = last_hit_row_pos - 1
@@ -236,12 +232,14 @@ def opponent_turn(grid):
     if grid[row_index][col_index] is cell_state_boat:
         # yes,  we hit something
         grid[row_index][col_index] = cell_state_hit
-        print("Oponent played " + chr(col_index + ord('A')) + str(row_index + 1) + ' HIT')
+        print("Oponent played " + chr(col_index + ord('A')) +
+              str(row_index + 1) + ' HIT')
         last_hit_col_pos = col_index
         last_hit_row_pos = row_index
     else:
         grid[row_index][col_index] = cell_state_missed
-        print("Oponent played " + chr(col_index + ord('A')) + str(row_index + 1) + ' MISSED')
+        print("Oponent played " + chr(col_index + ord('A')) +
+              str(row_index + 1) + ' MISSED')
         last_hit_col_pos = -1
         last_hit_row_pos = -1
 
@@ -267,12 +265,18 @@ def start_game():
 
         # ask player what he wants
         grid_pos_totry = get_player_posinput(oponent_grid)
-        if (oponent_grid[grid_pos_totry[1]][grid_pos_totry[0]] == cell_state_boat):
-                oponent_grid[grid_pos_totry[1]][grid_pos_totry[0]] = cell_state_hit
-                print("You played " + chr(grid_pos_totry[0] + ord('A')) + str(grid_pos_totry[1] + 1) + ' HIT')
-        elif (oponent_grid[grid_pos_totry[1]][grid_pos_totry[0]] == cell_state_unknown):
-            oponent_grid[grid_pos_totry[1]][grid_pos_totry[0]] = cell_state_missed
-            print("You played " + chr(grid_pos_totry[0] + ord('A')) + str(grid_pos_totry[1] + 1) + ' MISSED')
+        if (oponent_grid[grid_pos_totry[1]][grid_pos_totry[0]] ==
+           cell_state_boat):
+                oponent_grid[grid_pos_totry[1]][grid_pos_totry[0]] = \
+                    cell_state_hit
+                print("You played " + chr(grid_pos_totry[0] + ord('A')) +
+                      str(grid_pos_totry[1] + 1) + ' HIT')
+        elif (oponent_grid[grid_pos_totry[1]][grid_pos_totry[0]] ==
+              cell_state_unknown):
+            oponent_grid[grid_pos_totry[1]][grid_pos_totry[0]] = \
+                cell_state_missed
+            print("You played " + chr(grid_pos_totry[0] + ord('A')) +
+                  str(grid_pos_totry[1] + 1) + ' MISSED')
 
         # perform the check
         if check_grid_status(oponent_grid) == gridstatus_noboats_left:
@@ -301,6 +305,7 @@ print("Empty spot = []")
 print("Player boats = *")
 print("Hit = X")
 print("Missed = o")
+print("To quit enter q")
 print("Enjoy!")
 print("-----------------------------------------------------\n")
 
