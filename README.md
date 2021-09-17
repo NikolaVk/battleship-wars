@@ -1,5 +1,7 @@
 # BATTLESHIP WARS
 
+<img src="https://github.com/NikolaVk/battleship-wars/blob/master/images/amiresponsive.png">
+
 Battleship wars is a game that is based on the classic strategy pen and paper game where the 2 players fight for victory 
 by destroying each other's ships. This version of the game is a python based game played via the terminal inside a code 
 editor, or in this case this game is deployed on Heroku which creates a terminal to play on.
@@ -7,6 +9,8 @@ editor, or in this case this game is deployed on Heroku which creates a terminal
 Players will be playing against a computer that will try to find all the players ships before they do, 
 the first to lose all of his ships loses the game. There are 4 ships in total with 4 different sizes going from 
 a ship that occupies 2 rows/columns to a ship that occupies 5.
+
+[Here you can find the live version of my project](https://battleship-wars.herokuapp.com/)
 
 ## How to play
 
@@ -25,6 +29,8 @@ wins the game and can after enter 'y' to go again or 'n' to stop playing.
     - Both the players boards are generated randomly making sure the ships stay inside the grid and don's overlap each other
     - The player is unable to see the opponents ships
 
+<img src="https://github.com/NikolaVk/battleship-wars/blob/master/images/grids.png">
+
 - The opponent
     - The player is going against a computer
     - The computer does not strike more than once in the same spot
@@ -34,6 +40,8 @@ wins the game and can after enter 'y' to go again or 'n' to stop playing.
     - The player gets a feedback after every round if he/her got shot or if the computer missed
     - The player also gets a feedback if he/she gets a got or miss on the opponents grid
     - If invalid coordinates are given larger than the grid itself it displays an error message
+
+<img src="https://github.com/NikolaVk/battleship-wars/blob/master/images/errormsg.png">
 
 
 ### Future features
@@ -62,6 +70,8 @@ are the water state which if tried to hit changes to the mis state and the boat 
 ### Validator Testing 
 
 I ran the code through the PEP8 validator. No errors returned.
+
+<img src="https://github.com/NikolaVk/battleship-wars/blob/master/images/validator.png">
 
 ## Bugs
 
