@@ -1,7 +1,5 @@
 # BATTLESHIP WARS
 
-<img src="https://github.com/NikolaVk/battleship-wars/blob/master/images/amiresponsive.png">
-
 Battleship wars is a game that is based on the classic strategy pen and paper game where the 2 players fight for victory 
 by destroying each other's ships. This version of the game is a python based game played via the terminal inside a code 
 editor, or in this case this game is deployed on Heroku which creates a terminal to play on.
@@ -10,7 +8,20 @@ Players will be playing against a computer that will try to find all the players
 the first to lose all of his ships loses the game. There are 4 ships in total with 4 different sizes going from 
 a ship that occupies 2 rows/columns to a ship that occupies 5.
 
+I created this game because I always enjoy playing this type of game as a board version. 
+
 [Here you can find the live version of my project](https://battleship-wars.herokuapp.com/)
+
+<img src="https://github.com/NikolaVk/battleship-wars/blob/master/images/startpoint.png">
+
+## Table of contents
+1. [How to play](#Howtoplay)
+2. [UX](#UX)
+3. [Features](#Features)
+4. [Technologies Used](#Technologies)
+5. [Testing](#Testing)
+6. [Deployment](#Deployment)
+7. [Credits](#Credits)
 
 ## How to play
 
@@ -19,6 +30,18 @@ what all different symbols mean. The players ships are indicated with a *, the e
 the misses with o and the hits with an X. In turns the player and computer get a shot at each other, the player
 chooses his/hers shots by typing in the coordinates (example: B5/h7) The first who sinks all the opponents ships
 wins the game and can after enter 'y' to go again or 'n' to stop playing.
+
+## UX
+
+### Visitor stories
+
+    - As a visitor of "Battleship Wars" I want/need
+
+    1. An explenation of how the game works.
+    2. Clear instructions on how to play
+    3. For the game to let me know if I did something wrong
+    4. To be able to quit the game when I want
+    5. After the game is finished to be able to restart the game widouth refreshing the site
 
 ## Features
 
@@ -79,14 +102,63 @@ I ran the code through the PEP8 validator. No errors returned.
 
 - I was unable to find any bugs in the end result
 
-## Deployment
+- ## Technologies used
 
-- The following steps have to be
-    - Open Heroku
-    - Create a new app in Heroku
-    - Go to settings inside the created app
-    - Click on add buildpack and add Python first and then NodeJS
-    - Now click on config vars and add one with PORT as a key and 8000 as the value
-    - Go to deploy and connect your GitHub account
-    - Under that link the repository to Heroku
-    - At the bottom of the page click the deploy branch button
+    - ### Languages used
+        
+        - [HTML](https://en.wikipedia.org/wiki/HTML)
+        - [CSS](https://en.wikipedia.org/wiki/Cascading_Style_Sheets)
+        - [Python](https://en.wikipedia.org/wiki/Python_(programming_language))
+
+    - ### Frameworks, libraries and programs used
+
+        - [Heroku](https://dashboard.heroku.com) was used to host the app
+        - [Random](https://docs.python.org/3/library/random.htmlhttps://docs.python.org/3/library/random.html) was used to position the ships randomly across the board
+        - [sys](https://docs.python.org/3/library/sys.html) was used by the sys.exit function to exit the application
+        - [JQuery](https://jquery.com/) Was already inside the CI templade
+        - [XTERM](https://github.com/xtermjs/xterm.js#readme) Was already inside the CI templade
+        - [PEP8 Validator](http://pep8online.com/) Was used to test the code for errors
+
+    - ### Tools
+
+        - [Git](https://nl.wikipedia.org/wiki/Git_(software)) and - [Github](https://www.gitpod.io/docs)  Was used to handle version control and store my code
+        - [Gitpod](https://www.gitpod.io/docs) was used as my IDE
+
+
+- ## Deployment
+
+This project was made using Gitpod and Github. This project has some secure information which is why an run.py file was used
+
+- ### Instructions Making a Local Clone
+
+    1. Make an account or login to Github and go to the main page of the repository[link](https://github.com/NikolaVk/battleship-wars)
+    2. Above all the files besides the large green Gitpod button click on code.
+    3. Now copy the link unter the HTTPS tab
+    4. Open whatever code editor you use
+    5. Open a new work directory or opan an existing one
+    6. In the terminal type in git clone and then paste the url you copied behind it and click enter
+
+
+- ## Deploying this project to Heroku
+
+    1. Create an account on Herouk or login
+    2. Create a new app within Heroku
+    3. Set the region you are in or otherwiae the closest one to you
+    4. After doing all that go to the settings bar and click on "Reveal Config Vars" and type in:
+
+    <pre>
+    Config Vars
+    KEY: PORT   VALUE: 8000
+    </pre>
+
+    6. Now add, commit and push to Github
+    7. After doing that return to heroku and click on the deploy tab and chose Github as deployment method
+    8. Now connect your repository name after that is ready
+    9. Scroll down and click "enable automatic deployment"
+    10. Click deploy and your ready to go
+
+- ## Credits 
+
+    - ### Code
+
+    - ### Acknowledgements
