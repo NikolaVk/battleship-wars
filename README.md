@@ -29,7 +29,7 @@ Inside the terminal the first thing the player will see is how to play the game.
 what all different symbols mean. The players ships are indicated with a *, the empty spots are indicated with [ ], 
 the misses with o and the hits with an X. In turns the player and computer get a shot at each other, the player
 chooses his/hers shots by typing in the coordinates (example: B5/h7) The first who sinks all the opponents ships
-wins the game and can after enter 'y' to go again or 'n' to stop playing.
+wins the game. After this the player can start a new game by pressing 'y' or stop playing by pressing 'n' and hit the enter button.
 
 ## UX
 
@@ -96,7 +96,7 @@ are the water state which if tried to hit changes to the mis state and the boat 
 
 - I player the game multiple times to see if everything works correctly
 - A couple of friends also tried playing the game to see if they spot something
-- It was also tested on various devices sich as a tabled and mobile phone
+- It was also tested on various devices such as a tablet and mobile phone
 
 ### Validator Testing 
 
@@ -135,7 +135,7 @@ I ran the code through the PEP8 validator. No errors returned.
 
 - ## Deployment
 
-This project was made using Gitpod and Github. This project has some secure information which is why an run.py file was used
+This project was made using Gitpod and Github.
 
 - ### Instructions Making a Local Clone
 
