@@ -82,13 +82,21 @@ are the water state which if tried to hit changes to the mis state and the boat 
 
 ## Testing 
 
-### Self testing
+### Scenarios 
+
+| Scenario    | What is sepose to happen | Does it pass |
+| ----------- | ----------- | ----------- |
+| Starting the game | The user should be able to type and letter or number key on the keyboard to start the game | I tested this by typing various numbers and letters in the kayboard. Also typing multiple keys at once. This worked as intended |
+| The ships | The users and opponents ships should not be on the same spot. They should be randomly placed on the board. Every new game this should be different | All ships get their own position on the board with every new game. I ran the program a couple of times to test this. This passes the test |
+| Typing in shooting positions | Only avaliable positions should be asble to be typed in. This being from 'A-1' to 'H-8' | Here I tried typing in a position beyond 'H-8' and that returned an error message. Also typing in one letter or number also returnes an error which means this works as intended Is's also possitlbe to type in lowcase and uppercase letters |
+| Quitting the game | The player is able to quit the game by typing in 'q' | I tested this by typing in q with lowecase and uppercase and it both worked as intended |
+| Restarting a finished game | The player is able to type in a 'y' to restart the game or an 'n' to stop the app | Like with the quit game function I tested this by typing in lowercase and uppercase 'y' and 'n'. This both did what it's sepose to do. The 'n' quits the game and the 'y' restarts it |
+
+### Further testing
 
 - I player the game multiple times to see if everything works correctly
-- I tried giving wrong inputs to see if I get an error messages when I enter
-  a wrong coordinate or I type in just one letter or number
-- I tested if the 'y' and 'n' function works at the end and if it resets the game
-- The code was also tested inside the terminal on the Heroku app
+- A couple of friends also tried playing the game to see if they spot something
+- It was also tested on various devices sich as a tabled and mobile phone
 
 ### Validator Testing 
 
@@ -115,8 +123,8 @@ I ran the code through the PEP8 validator. No errors returned.
         - [Heroku](https://dashboard.heroku.com) was used to host the app
         - [Random](https://docs.python.org/3/library/random.htmlhttps://docs.python.org/3/library/random.html) was used to position the ships randomly across the board
         - [sys](https://docs.python.org/3/library/sys.html) was used by the sys.exit function to exit the application
-        - [JQuery](https://jquery.com/) Was already inside the CI templade
-        - [XTERM](https://github.com/xtermjs/xterm.js#readme) Was already inside the CI templade
+        - [JQuery](https://jquery.com/) Was already inside the CI template
+        - [XTERM](https://github.com/xtermjs/xterm.js#readme) Was already inside the CI template
         - [PEP8 Validator](http://pep8online.com/) Was used to test the code for errors
 
     - ### Tools
@@ -131,7 +139,7 @@ This project was made using Gitpod and Github. This project has some secure info
 
 - ### Instructions Making a Local Clone
 
-    1. Make an account or login to Github and go to the main page of the repository[link](https://github.com/NikolaVk/battleship-wars)
+    1. Make an account or login to Github and go to the main page of the [repository](https://github.com/NikolaVk/battleship-wars)
     2. Above all the files besides the large green Gitpod button click on code.
     3. Now copy the link unter the HTTPS tab
     4. Open whatever code editor you use
@@ -160,5 +168,10 @@ This project was made using Gitpod and Github. This project has some secure info
 - ## Credits 
 
     - ### Code
+        All the code was custom made
 
     - ### Acknowledgements
+
+        I would like to thank:
+        Ron Hoekstra and Paul Dijxhoorn for giving me with advice and helping me on places where I got stuck
+        I used the readme from [Happy Bonsai](https://github.com/pjdijxhoorn/milestone-4-webshop/blob/main/readme.md) to help me create the table within the scenario section 
